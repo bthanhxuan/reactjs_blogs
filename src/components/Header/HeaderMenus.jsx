@@ -1,6 +1,10 @@
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 function HeaderMenus() {
+  const currentUser = useSelector((state) => state.USER.currentUser);
+  // console.log(currentUser);
+
   return (
     <div className="tcl-col-6">
       {/* Nav */}
@@ -50,11 +54,25 @@ function HeaderMenus() {
           </li>
         </ul>
         <ul className="header-nav__lists">
-          <li className="user">
-            <Link to="/login">
-              <i className="icons ion-person" /> Tài khoản
-            </Link>
-          </li>
+          {!currentUser && (
+            <li className="user">
+              <Link to="/login">
+                <i className="icons ion-person" /> Tài khoản
+              </Link>
+            </li>
+          )}
+          {currentUser && (
+            <li className="user">
+              <Link to="/profile">
+                <i className="icons ion-person" /> {currentUser.name}
+              </Link>
+              <ul>
+                <li>
+                  <a href="/">Logout</a>
+                </li>
+              </ul>
+            </li>
+          )}
         </ul>
       </div>
     </div>
