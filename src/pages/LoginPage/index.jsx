@@ -1,13 +1,15 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import Button from '../../components/shared/Button';
 import Input from '../../components/shared/Input';
+import { useIsAuthenticated } from '../../hooks/useIsAuthenticated';
 import { actLoginAsync } from '../../store/user/actions';
 import './login.css';
 
 function LoginPage() {
-  const token = useSelector((state) => state.USER.token);
+  useIsAuthenticated();
+
   const [loading, setLoading] = useState(false);
   const [formError, setFormError] = useState('');
   const [formData, setFormData] = useState({
@@ -17,12 +19,6 @@ function LoginPage() {
 
   const dispatch = useDispatch();
   const history = useHistory();
-
-  useEffect(() => {
-    if (token) {
-      history.push('/');
-    }
-  }, [token, history]);
 
   function handleChangeValue(e) {
     const name = e.target.name;

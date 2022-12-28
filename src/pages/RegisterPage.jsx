@@ -1,15 +1,16 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import Button from '../components/shared/Button';
 import Input from '../components/shared/Input';
+import { useIsAuthenticated } from '../hooks/useIsAuthenticated';
 import { actRegisterAsync } from '../store/user/actions';
 import './LoginPage/login.css';
 
 function RegisterPage() {
-  const token = useSelector((state) => state.USER.token);
+  useIsAuthenticated();
+
   const dispatch = useDispatch();
-  const history = useHistory();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     nickname: '',
@@ -18,12 +19,6 @@ function RegisterPage() {
     password: '',
   });
   const [formError, setFormError] = useState('');
-
-  useEffect(() => {
-    if (token) {
-      history.push('/');
-    }
-  }, [token, history]);
 
   function handleChangeValue(e) {
     const name = e.target.name;
