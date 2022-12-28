@@ -1,6 +1,8 @@
+import { ACCESS_TOKEN, ERRORS_MESSAGE } from '../../constants';
 import userService from '../../service/user';
 
 export const ACT_LOGIN = 'ACT_LOGIN';
+export const ACT_LOGOUT = 'ACT_LOGOUT';
 
 export function actLogin(token, currentUser) {
   return {
@@ -9,6 +11,34 @@ export function actLogin(token, currentUser) {
       token,
       currentUser,
     },
+  };
+}
+
+export function actLogout() {
+  return {
+    type: ACT_LOGOUT,
+    payload: null,
+  };
+}
+
+export function actRegisterAsync(data = {}) {
+  return async (dispatch) => {
+    try {
+      await userService.register(data);
+      const { username, password } = data;
+      dispatch(actLoginAsync({ username, password }));
+      return {
+        ok: true,
+      };
+    } catch (error) {
+      console.log(error);
+      const errorCode = error.response.data.code;
+      const errorMessage = ERRORS_MESSAGE[errorCode];
+      return {
+        ok: false,
+        message: errorMessage,
+      };
+    }
   };
 }
 
@@ -33,7 +63,7 @@ export function actLoginAsync({ username, password }) {
 }
 
 export function actFetchMeAsync(token) {
-  if (!token) token = localStorage.getItem('ACCESS_TOKEN');
+  if (!token) token = localStorage.getItem(ACCESS_TOKEN);
 
   return async (dispatch) => {
     try {

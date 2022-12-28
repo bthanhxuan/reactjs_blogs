@@ -1,9 +1,16 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { actLogout } from '../../store/user/actions';
 
 function HeaderMenus() {
   const currentUser = useSelector((state) => state.USER.currentUser);
   // console.log(currentUser);
+  const dispatch = useDispatch();
+
+  function handleLogout(e) {
+    e.preventDefault();
+    dispatch(actLogout());
+  }
 
   return (
     <div className="tcl-col-6">
@@ -68,7 +75,9 @@ function HeaderMenus() {
               </Link>
               <ul>
                 <li>
-                  <a href="/">Logout</a>
+                  <a href="/" onClick={handleLogout}>
+                    Logout
+                  </a>
                 </li>
               </ul>
             </li>

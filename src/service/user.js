@@ -10,6 +10,14 @@ const userService = {
   fetchMe(token) {
     return API.callWithToken(token).get('/wp/v2/users/me');
   },
+  register({ username, password, email, nickname }) {
+    return API.call().post('/wp/v2/users/register', {
+      username,
+      password,
+      email,
+      nickname,
+    });
+  },
 };
 
 export default userService;
