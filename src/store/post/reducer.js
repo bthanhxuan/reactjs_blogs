@@ -1,24 +1,19 @@
 import {
-  ACT_FETCH_ARTICLES_GENERAL,
   ACT_FETCH_ARTICLES_LATEST,
+  ACT_FETCH_ARTICLES_PAGING,
   ACT_FETCH_ARTICLES_POPULAR,
   ACT_FETCH_ARTICLES_RELATED,
-  ACT_FETCH_ARTICLES_SEARCH,
   ACT_FETCH_ARTICLE_DETAIL,
 } from './actions';
 
 const initState = {
   articlesLatest: [],
   articlesPopular: [],
-  articlesGeneral: {
+  articlesPaging: {
     list: [],
     currentPage: 1,
     totalPages: 1,
-  },
-  articlesSearch: {
-    list: [],
-    currentPage: 1,
-    totalPages: 1,
+    total: 0,
   },
   articleDetail: null,
   articlesRelated: [],
@@ -38,29 +33,17 @@ function reducer(state = initState, action) {
         articlesPopular: action.payload.posts,
       };
 
-    case ACT_FETCH_ARTICLES_GENERAL:
+    case ACT_FETCH_ARTICLES_PAGING:
       return {
         ...state,
-        articlesGeneral: {
+        articlesPaging: {
           list:
             action.payload.page === 1
               ? action.payload.posts
-              : [...state.articlesGeneral.list, ...action.payload.posts],
+              : [...state.articlesPaging.list, ...action.payload.posts],
           currentPage: action.payload.page,
           totalPages: action.payload.totalPages,
-        },
-      };
-
-    case ACT_FETCH_ARTICLES_SEARCH:
-      return {
-        ...state,
-        articlesSearch: {
-          list:
-            action.payload.page === 1
-              ? action.payload.posts
-              : [...state.articlesSearch.list, ...action.payload.posts],
-          currentPage: action.payload.page,
-          totalPages: action.payload.totalPages,
+          total: action.payload.total,
         },
       };
 

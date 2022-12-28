@@ -4,8 +4,7 @@ import postService from '../../service/post';
 // actions type
 export const ACT_FETCH_ARTICLES_LATEST = 'ACT_FETCH_ARTICLES_LATEST';
 export const ACT_FETCH_ARTICLES_POPULAR = 'ACT_FETCH_ARTICLES_POPULAR';
-export const ACT_FETCH_ARTICLES_GENERAL = 'ACT_FETCH_ARTICLES_GENERAL';
-export const ACT_FETCH_ARTICLES_SEARCH = 'ACT_FETCH_ARTICLES_SEARCH';
+export const ACT_FETCH_ARTICLES_PAGING = 'ACT_FETCH_ARTICLES_PAGING';
 export const ACT_FETCH_ARTICLE_DETAIL = 'ACT_FETCH_ARTICLE_DETAIL';
 export const ACT_FETCH_ARTICLES_RELATED = 'ACT_FETCH_ARTICLES_RELATED';
 
@@ -28,24 +27,14 @@ export function actFetchArticlesPopular(posts) {
   };
 }
 
-export function actFetchArticlesGeneral(posts, page, totalPages) {
+export function actFetchArticlesPaging(posts, page, totalPages, total) {
   return {
-    type: ACT_FETCH_ARTICLES_GENERAL,
+    type: ACT_FETCH_ARTICLES_PAGING,
     payload: {
       posts,
       page,
       totalPages,
-    },
-  };
-}
-
-export function actFetchArticlesSearch(posts, page, totalPages) {
-  return {
-    type: ACT_FETCH_ARTICLES_SEARCH,
-    payload: {
-      posts,
-      page,
-      totalPages,
+      total,
     },
   };
 }
@@ -87,23 +76,14 @@ export function actFetchArticlesPopularAsync() {
   };
 }
 
-export function actFetchArticlesGeneralAsync(page = 1) {
+export function actFetchArticlesPagingAsync(page = 1, extraParam = {}) {
   return async (dispatch) => {
-    const response = await postService.getArticlesGeneral(page);
+    const response = await postService.getArticlesPaging(page, extraParam);
     const data = response.data;
     const posts = data.map(mappingPostData);
     const totalPages = response.headers['x-wp-totalpages'];
-    dispatch(actFetchArticlesGeneral(posts, page, totalPages));
-  };
-}
-
-export function actFetchArticlesSearchAsync(search, page = 1) {
-  return async (dispatch) => {
-    const response = await postService.getArticlesSearch(search, page);
-    const data = response.data;
-    const posts = data.map(mappingPostData);
-    const totalPages = response.headers['x-wp-totalpages'];
-    dispatch(actFetchArticlesSearch(posts, page, totalPages));
+    const total = response.headers['x-wp-total'];
+    dispatch(actFetchArticlesPaging(posts, page, totalPages, total));
   };
 }
 

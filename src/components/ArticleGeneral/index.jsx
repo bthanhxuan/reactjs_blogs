@@ -1,35 +1,20 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { actFetchArticlesGeneralAsync } from '../../store/post/actions';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { usePostPaging } from '../../hooks/usePostPaging';
+import { actFetchArticlesPagingAsync } from '../../store/post/actions';
 import ArticleItem from '../ArticleItem';
-import Button from '../shared/Button';
 import MainTitle from '../shared/MainTitle';
 
 function ArticleGeneral() {
-  const posts = useSelector((state) => state.POST.articlesGeneral.list);
-  const currentPage = useSelector(
-    (state) => state.POST.articlesGeneral.currentPage
-  );
-  const totalPages = useSelector(
-    (state) => state.POST.articlesGeneral.totalPages
-  );
-
-  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-
-  const hasMorePost = currentPage < totalPages;
+  const params = {
+    extraParam: { per_page: 2 },
+  };
+  const { posts, showButtonLoadMore } = usePostPaging(params);
 
   useEffect(() => {
-    dispatch(actFetchArticlesGeneralAsync(1));
+    dispatch(actFetchArticlesPagingAsync(1, params.extraParam));
   }, [dispatch]);
-
-  function handleLoadmore() {
-    if (loading) return; //ngăn việc double click từ ng dùng
-    setLoading(true);
-    dispatch(actFetchArticlesGeneralAsync(currentPage + 1)).then(() => {
-      setLoading(false);
-    });
-  }
 
   return (
     <div className="articles-list section">
@@ -46,18 +31,7 @@ function ArticleGeneral() {
           ))}
         </div>
         {/* End Row News List */}
-        <div className="text-center">
-          {hasMorePost && (
-            <Button
-              type="primary"
-              size="large"
-              loading={loading}
-              onClick={handleLoadmore}
-            >
-              Tải thêm
-            </Button>
-          )}
-        </div>
+        {showButtonLoadMore()}
       </div>
     </div>
   );
