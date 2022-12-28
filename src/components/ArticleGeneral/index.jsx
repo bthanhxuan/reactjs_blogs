@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { actFetchArticlesGeneralAsync } from '../../store/post/actions';
 import ArticleItem from '../ArticleItem';
@@ -6,14 +6,22 @@ import Button from '../shared/Button';
 import MainTitle from '../shared/MainTitle';
 
 function ArticleGeneral() {
-  const posts = useSelector((state) => state.POST.articlesGeneral);
-  const currentPage = useSelector((state) => state.POST.currentPage);
-  const totalPages = useSelector((state) => state.POST.totalPages);
+  const posts = useSelector((state) => state.POST.articlesGeneral.list);
+  const currentPage = useSelector(
+    (state) => state.POST.articlesGeneral.currentPage
+  );
+  const totalPages = useSelector(
+    (state) => state.POST.articlesGeneral.totalPages
+  );
 
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   const hasMorePost = currentPage < totalPages;
+
+  useEffect(() => {
+    dispatch(actFetchArticlesGeneralAsync(currentPage));
+  }, [dispatch]);
 
   function handleLoadmore() {
     if (loading) return; //ngăn việc double click từ ng dùng

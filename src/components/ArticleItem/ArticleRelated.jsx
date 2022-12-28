@@ -1,14 +1,16 @@
+import { Link } from 'react-router-dom';
 import './related-posts.css';
 
-function ArticleRelated() {
+function ArticleRelated({ post }) {
+  const { title, authorName, slug } = post;
   return (
     <article className="related-post__card">
-      <a href="/" className="related-post__title">
-        5 BBQ Recipes to Get Your Summer Started
-      </a>
+      <Link to={`/post/${slug}`} className="related-post__title">
+        {title}
+      </Link>
       <div className="related-post__info">
         <a className="related-post__author" href="/">
-          John Smith
+          {authorName}
         </a>
         <p className="related-post__date">
           <svg

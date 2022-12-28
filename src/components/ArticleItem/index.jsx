@@ -17,7 +17,16 @@ export default function ArticleItem({
 }) {
   if (!post) return <></>;
 
-  const { title, thumb, authorName, pubDate, authorAvatar, desc } = post;
+  const {
+    title,
+    thumb,
+    authorName,
+    pubDate,
+    authorAvatar,
+    desc,
+    slug,
+    categoriesId,
+  } = post;
 
   const classes = cls('article-item', {
     'style-card': isStyleCard,
@@ -28,10 +37,12 @@ export default function ArticleItem({
     <article className={classes}>
       <ArticleItemThumb thumb={thumb} title={title} />
       <div className="article-item__content">
-        {isShowCategoies && <ArticleItemCategories />}
+        {isShowCategoies && (
+          <ArticleItemCategories categoriesId={categoriesId} />
+        )}
         {isShowCategoies && <ArticleItemStats />}
 
-        <ArticleItemTitle title={title} />
+        <ArticleItemTitle title={title} slug={slug} />
 
         {isShowDesc && <ArticleItemDesc desc={desc} />}
 
