@@ -1,7 +1,7 @@
 import { ACT_LOGIN } from './actions';
 
 const initState = {
-  token: null,
+  token: localStorage.getItem('ACCESS_TOKEN'),
   currentUser: null,
 };
 

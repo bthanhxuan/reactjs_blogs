@@ -7,8 +7,7 @@ import { actLoginAsync } from '../../store/user/actions';
 import './login.css';
 
 function LoginPage() {
-  const currentUser = useSelector((state) => state.USER.currentUser);
-  // console.log(currentUser);
+  const token = useSelector((state) => state.USER.token);
   const [loading, setLoading] = useState(false);
   const [formError, setFormError] = useState('');
   const [formData, setFormData] = useState({
@@ -20,10 +19,10 @@ function LoginPage() {
   const history = useHistory();
 
   useEffect(() => {
-    if (currentUser) {
+    if (token) {
       history.push('/');
     }
-  }, [currentUser]);
+  }, [token, history]);
 
   function handleChangeValue(e) {
     const name = e.target.name;

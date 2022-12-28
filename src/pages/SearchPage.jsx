@@ -39,7 +39,7 @@ function SearchPage() {
     <div className="articles-list section">
       <div className="tcl-container">
         <MainTitle type="search">
-          10 kết quả tìm kiếm với từ khóa "{keyword}"
+          {totalPages} kết quả tìm kiếm với từ khóa "{keyword}"
         </MainTitle>
 
         <div className="tcl-row tcl-jc-center">

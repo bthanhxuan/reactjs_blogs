@@ -20,7 +20,7 @@ function ArticleGeneral() {
   const hasMorePost = currentPage < totalPages;
 
   useEffect(() => {
-    dispatch(actFetchArticlesGeneralAsync(currentPage));
+    dispatch(actFetchArticlesGeneralAsync(1));
   }, [dispatch]);
 
   function handleLoadmore() {
