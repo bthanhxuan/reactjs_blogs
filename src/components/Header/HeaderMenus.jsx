@@ -4,6 +4,8 @@ import { actLogout } from '../../store/user/actions';
 
 function HeaderMenus() {
   const currentUser = useSelector((state) => state.USER.currentUser);
+  const menus = useSelector((state) => state.MENU.menus);
+  // console.log(menus);
   // console.log(currentUser);
   const dispatch = useDispatch();
 
@@ -12,54 +14,24 @@ function HeaderMenus() {
     dispatch(actLogout());
   }
 
+  function renderMenus(items) {
+    return items.map((item) => {
+      return (
+        <li key={item.id}>
+          <a href={item.linkURL}>{item.name}</a>
+          {item.childItems.length > 0 && (
+            <ul>{renderMenus(item.childItems)}</ul>
+          )}
+        </li>
+      );
+    });
+  }
+
   return (
     <div className="tcl-col-6">
       {/* Nav */}
       <div className="header-nav">
-        <ul className="header-nav__lists">
-          <li>
-            <a href="/">Home</a>
-          </li>
-          <li>
-            <a href="/">Our Team</a>
-            <ul>
-              <li>
-                <a href="/">Our Team 1</a>
-              </li>
-              <li>
-                <a href="/">Our Team 2</a>
-              </li>
-              <li>
-                <a href="/">Our Team 3</a>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <a href="/">Contact</a>
-            <ul>
-              <li>
-                <a href="/">Contact 1</a>
-              </li>
-              <li>
-                <a href="/">Contact 2</a>
-              </li>
-              <li>
-                <a href="/">Contact 3</a>
-                <ul>
-                  <li>
-                    <a href="/">Contact 11</a>
-                  </li>
-                  <li>
-                    <a href="/">Contact 12</a>
-                  </li>
-                  <li>
-                    <a href="/">Contact 13</a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-        </ul>
+        <ul className="header-nav__lists">{renderMenus(menus)}</ul>
         <ul className="header-nav__lists">
           {!currentUser && (
             <li className="user">

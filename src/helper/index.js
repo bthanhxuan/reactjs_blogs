@@ -15,3 +15,15 @@ export function mappingPostData(post) {
     contentHTML: post.content.rendered,
   };
 }
+
+export function mappingMenuData(menu) {
+  const childItemsData = menu?.child_items || [];
+  const childItems = childItemsData.map(mappingMenuData);
+
+  return {
+    id: menu.ID,
+    name: menu.title,
+    linkURL: menu.url,
+    childItems,
+  };
+}

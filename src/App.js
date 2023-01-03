@@ -12,6 +12,7 @@ import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { actFetchAllCategoriesAsync } from './store/category/actions';
 import { actFetchMeAsync } from './store/user/actions';
+import { actGetMenusAsync } from './store/menu/actions';
 
 function App() {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ function App() {
   useEffect(() => {
     dispatch(actFetchAllCategoriesAsync());
     dispatch(actFetchMeAsync());
+    dispatch(actGetMenusAsync());
   }, [dispatch]);
 
   return (
