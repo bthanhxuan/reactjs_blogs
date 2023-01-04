@@ -27,3 +27,15 @@ export function mappingMenuData(menu) {
     childItems,
   };
 }
+
+export function mappingCommentData(comment) {
+  return {
+    id: comment.id,
+    authorId: comment.author,
+    authorName: comment.author_name,
+    authorAvatar: comment.author_data.avatar,
+    pubDate: comment.date,
+    content: comment.content.rendered,
+    replyCount: comment.comment_reply_count,
+  };
+}

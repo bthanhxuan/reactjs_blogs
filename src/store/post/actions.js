@@ -1,5 +1,6 @@
 import { mappingPostData } from '../../helper';
 import postService from '../../service/post';
+import { actFetchCommentsParentAsync } from '../comment/actions';
 
 // actions type
 export const ACT_FETCH_ARTICLES_LATEST = 'ACT_FETCH_ARTICLES_LATEST';
@@ -92,6 +93,9 @@ export function actFetchArticleDetailAsync(slug) {
     const response = await postService.getArticleDetail(slug);
     const post = mappingPostData(response.data[0]);
     dispatch(actFetchArticleDetail(post));
+
+    dispatch(actFetchCommentsParentAsync({ post: post.id }));
+
     const resRelated = await postService.getArticlesRelated(
       post.authorId,
       post.id

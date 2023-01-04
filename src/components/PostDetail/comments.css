@@ -149,6 +149,11 @@
   padding-left: 55px;
 }
 
+.comments__hidden.parent {
+  padding-left: 10px;
+  margin-top: 20px;
+}
+
 .comments__hidden .icons {
   display: inline-block;
   transform: rotate(200deg);
