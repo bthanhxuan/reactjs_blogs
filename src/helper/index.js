@@ -37,5 +37,6 @@ export function mappingCommentData(comment) {
     pubDate: comment.date,
     content: comment.content.rendered,
     replyCount: comment.comment_reply_count,
+    parent: comment.parent,
   };
 }

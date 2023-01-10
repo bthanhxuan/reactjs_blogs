@@ -1,4 +1,4 @@
-import { ACT_FETCH_COMMENTS_PARENT } from './actions';
+import { ACT_FETCH_COMMENTS_CHILD, ACT_FETCH_COMMENTS_PARENT } from './actions';
 
 const initState = {
   commentsPaging: {
@@ -7,6 +7,7 @@ const initState = {
     totalPages: 1,
     total: 0,
   },
+  commentsChildData: {},
 };
 
 function reducer(state = initState, action) {
@@ -24,6 +25,27 @@ function reducer(state = initState, action) {
           total: action.payload.total,
         },
       };
+
+    case ACT_FETCH_COMMENTS_CHILD:
+      return {
+        ...state,
+        commentsChildData: {
+          ...state.commentsChildData,
+          [action.payload.parent]: {
+            list:
+              action.payload.currentPage === 1
+                ? action.payload.comments
+                : [
+                    ...state.commentsChildData[action.payload.parent].list,
+                    ...action.payload.comments,
+                  ],
+            currentPage: action.payload.currentPage,
+            totalPages: action.payload.totalPages,
+            total: action.payload.total,
+          },
+        },
+      };
+
     default:
       return state;
   }

@@ -12,28 +12,25 @@ function PostDetailComments() {
 
   const restTotal = total - 5 * currentPage;
 
-  function handleLoadMore(e) {
-    e.preventDefault();
+  function handleLoadMore(evt) {
+    evt.preventDefault();
     dispatch(
-      actFetchCommentsParentAsync({ post: postId, page: currentPage + 1 })
+      actFetchCommentsParentAsync({ page: currentPage + 1, post: postId })
     );
   }
 
   return (
     <div className="post-detail__comments">
-      <div className="comments__form">
-        <CommentForm />
-        <div className="text-right">
-          <button className="btn btn-default">Submit</button>
-        </div>
-      </div>
-      <p>20 Comments</p>
-      {/* Comment from API */}
-      <ul className="comments">
-        {comments.map((comment) => (
-          <CommentItem key={comment.id} comment={comment} />
-        ))}
-      </ul>
+      <CommentForm />
+      <p>{total} Comments</p>
+      {comments && comments.length > 0 && (
+        <ul className="comments">
+          {comments.map((comment) => (
+            <CommentItem key={comment.id} comment={comment} />
+          ))}
+        </ul>
+      )}
+
       {restTotal > 0 && (
         <div className="comments__hidden parent">
           <a href="/" onClick={handleLoadMore}>
