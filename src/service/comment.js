@@ -12,6 +12,14 @@ const commentService = {
       },
     });
   },
+  addNewItem({ authorId, content, postId, parentId = 0 }) {
+    return API.callWithToken().post('/wp/v2/comments', {
+      author: authorId,
+      content,
+      post: postId,
+      parent: parentId,
+    });
+  },
 };
 
 export default commentService;

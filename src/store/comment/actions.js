@@ -4,6 +4,7 @@ import commentService from '../../service/comment';
 //action type
 export const ACT_FETCH_COMMENTS_PARENT = 'ACT_FETCH_COMMENTS_PARENT';
 export const ACT_FETCH_COMMENTS_CHILD = 'ACT_FETCH_COMMENTS_CHILD';
+export const ACT_FETCH_NEW_COMMENTS = 'ACT_FETCH_NEW_COMMENTS';
 
 // action creator
 export function actFetchCommentsParent({
@@ -38,6 +39,15 @@ export function actFetchCommentsChild({
       totalPages,
       currentPage,
       parent,
+    },
+  };
+}
+
+export function actFetchNewComments(comment) {
+  return {
+    type: ACT_FETCH_NEW_COMMENTS,
+    payload: {
+      comment,
     },
   };
 }
@@ -91,5 +101,26 @@ export function actFetchCommentsChildAsync({
         parent,
       })
     );
+  };
+}
+
+export function actFetchNewCommentsAsync({
+  authorId,
+  content,
+  postId,
+  parentId = 0,
+}) {
+  return async (dispatch) => {
+    try {
+      const response = await commentService.addNewItem({
+        authorId,
+        content,
+        postId,
+        parentId,
+      });
+      // console.log('actFetchNewCommentsAsync', response);
+      const newComments = mappingCommentData(response.data);
+      dispatch(actFetchNewComments(newComments));
+    } catch (error) {}
   };
 }

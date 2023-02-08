@@ -1,4 +1,8 @@
-import { ACT_FETCH_COMMENTS_CHILD, ACT_FETCH_COMMENTS_PARENT } from './actions';
+import {
+  ACT_FETCH_COMMENTS_CHILD,
+  ACT_FETCH_COMMENTS_PARENT,
+  ACT_FETCH_NEW_COMMENTS,
+} from './actions';
 
 const initState = {
   commentsPaging: {
@@ -43,6 +47,15 @@ function reducer(state = initState, action) {
             totalPages: action.payload.totalPages,
             total: action.payload.total,
           },
+        },
+      };
+
+    case ACT_FETCH_NEW_COMMENTS:
+      return {
+        ...state,
+        commentsPaging: {
+          ...state.commentsPaging,
+          list: [action.payload.comment, ...state.commentsPaging.list],
         },
       };
 

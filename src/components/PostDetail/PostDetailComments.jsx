@@ -21,7 +21,7 @@ function PostDetailComments() {
 
   return (
     <div className="post-detail__comments">
-      <CommentForm />
+      <CommentForm parentId={0} />
       <p>{total} Comments</p>
       {comments && comments.length > 0 && (
         <ul className="comments">
