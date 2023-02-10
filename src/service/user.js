@@ -18,6 +18,13 @@ const userService = {
       nickname,
     });
   },
+  changePassword({ token, password, new_password, confirm_new_password }) {
+    return API.callWithToken(token).put('/wp/v2/users/password', {
+      password,
+      new_password,
+      confirm_new_password,
+    });
+  },
 };
 
 export default userService;

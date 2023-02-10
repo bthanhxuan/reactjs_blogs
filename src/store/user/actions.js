@@ -3,6 +3,7 @@ import userService from '../../service/user';
 
 export const ACT_LOGIN = 'ACT_LOGIN';
 export const ACT_LOGOUT = 'ACT_LOGOUT';
+export const ACT_CHANGE_PASSWORD = 'ACT_CHANGE_PASSWORD';
 
 export function actLogin(token, currentUser) {
   return {
@@ -18,6 +19,13 @@ export function actLogout() {
   return {
     type: ACT_LOGOUT,
     payload: null,
+  };
+}
+
+export function actChangePassword() {
+  return {
+    type: ACT_CHANGE_PASSWORD,
+    payload: {},
   };
 }
 
@@ -72,6 +80,35 @@ export function actFetchMeAsync(token) {
       dispatch(actLogin(token, currentUser));
     } catch (error) {
       console.log(error);
+    }
+  };
+}
+
+export function actChangePasswordAsync({
+  token,
+  password,
+  new_password,
+  confirm_new_password,
+}) {
+  return async (dispatch) => {
+    try {
+      const response = await userService.changePassword({
+        token,
+        password,
+        new_password,
+        confirm_new_password,
+      });
+      const data = response.data;
+      console.log('changePass', data);
+      return {
+        ok: true,
+      };
+    } catch (error) {
+      console.log(error);
+      return {
+        ok: false,
+        message: 'Thông tin chưa hợp lệ!',
+      };
     }
   };
 }

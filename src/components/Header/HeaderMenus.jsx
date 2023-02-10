@@ -47,9 +47,12 @@ function HeaderMenus() {
               </Link>
               <ul>
                 <li>
-                  <a href="/" onClick={handleLogout}>
+                  <Link to="/" onClick={handleLogout}>
                     Logout
-                  </a>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/change-pw">Change Password</Link>
                 </li>
               </ul>
             </li>
