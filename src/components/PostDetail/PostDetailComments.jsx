@@ -8,14 +8,25 @@ function PostDetailComments() {
   const dispatch = useDispatch();
   const postId = useSelector((state) => state.POST.articleDetail.id);
   const commentsPaging = useSelector((state) => state.COMMENT.commentsPaging);
-  const { list: comments, totalPages, total, currentPage } = commentsPaging;
+  // console.log('commentsPaging', commentsPaging);
+  const {
+    list: comments,
+    totalPages,
+    total,
+    currentPage,
+    exclude,
+  } = commentsPaging;
 
   const restTotal = total - 5 * currentPage;
 
   function handleLoadMore(evt) {
     evt.preventDefault();
     dispatch(
-      actFetchCommentsParentAsync({ page: currentPage + 1, post: postId })
+      actFetchCommentsParentAsync({
+        page: currentPage + 1,
+        post: postId,
+        exclude,
+      })
     );
   }
 

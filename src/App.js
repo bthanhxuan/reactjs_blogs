@@ -7,6 +7,7 @@ import PostDetailPage from './pages/PostDetailPage';
 import RegisterPage from './pages/RegisterPage';
 import SearchPage from './pages/SearchPage';
 import ChangePasswordPage from './pages/ChangePasswordPage';
+import Profile from './pages/Profile';
 
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -40,6 +41,9 @@ function App() {
           </Route>
           <Route path="/change-pw">
             <ChangePasswordPage />
+          </Route>
+          <Route path="/update-profile">
+            <Profile />
           </Route>
           <Route path="/register">
             <RegisterPage />

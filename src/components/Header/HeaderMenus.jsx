@@ -47,6 +47,9 @@ function HeaderMenus() {
               </Link>
               <ul>
                 <li>
+                  <Link to="/update-profile">Update Profile</Link>
+                </li>
+                <li>
                   <Link to="/" onClick={handleLogout}>
                     Logout
                   </Link>

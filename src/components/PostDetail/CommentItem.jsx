@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { actFetchCommentsChildAsync } from '../../store/comment/actions';
 import CommentForm from './CommentForm';
@@ -19,6 +20,8 @@ function CommentItem(props) {
   let restTotal = total - 3 * currentPage;
   if (isNaN(restTotal)) restTotal = replyCount;
 
+  const [isShowForm, setIsShowForm] = useState(false);
+
   function handleLoadMore(evt) {
     evt.preventDefault();
     dispatch(
@@ -28,6 +31,10 @@ function CommentItem(props) {
         parent: id,
       })
     );
+  }
+
+  function handleToogleCommentForm() {
+    setIsShowForm(!isShowForm);
   }
 
   return (
@@ -47,7 +54,10 @@ function CommentItem(props) {
             className="comments__section--text"
             dangerouslySetInnerHTML={{ __html: content }}
           ></div>
-          <i className="ion-reply comments__section--reply"></i>
+          <i
+            className="ion-reply comments__section--reply"
+            onClick={handleToogleCommentForm}
+          ></i>
         </div>
       </div>
       {/* Reply Comments */}
@@ -58,49 +68,8 @@ function CommentItem(props) {
           ))}
         </ul>
       )}
-      {/* <ul className="comments">
-        <li className="item">
-          <div className="comments__section">
-            <div className="comments__section--avatar">
-              <a href="/">
-                <img src="/assets/images/avatar3.jpg" alt="" />
-              </a>
-            </div>
-            <div className="comments__section--content">
-              <a href="/" className="comments__section--user">
-                John Smith
-              </a>
-              <p className="comments__section--time">2 minutes ago</p>
-              <p className="comments__section--text">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit?
-              </p>
-              <i class="ion-reply comments__section--reply"></i>
-            </div>
-          </div>
-        </li>
-        <li className="item">
-          <div className="comments__section">
-            <div className="comments__section--avatar">
-              <a href="/">
-                <img src="/assets/images/avatar4.jpg" alt="" />
-              </a>
-            </div>
-            <div className="comments__section--content">
-              <a href="/" className="comments__section--user">
-                John Smith
-              </a>
-              <p className="comments__section--time">2 minutes ago</p>
-              <p className="comments__section--text">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                Nesciunt sequi odit exercitationem ma?
-              </p>
-              <i class="ion-reply comments__section--reply"></i>
-            </div>
-          </div>
-        </li>
-      </ul> */}
       {/* Reply form */}
-      {/* <CommentForm/> */}
+      <CommentForm parentId={id} isShow={isShowForm} />
       {restTotal > 0 && (
         <div className="comments__hidden">
           <a href="/" onClick={handleLoadMore}>

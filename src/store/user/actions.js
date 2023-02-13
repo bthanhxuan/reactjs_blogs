@@ -112,3 +112,10 @@ export function actChangePasswordAsync({
     }
   };
 }
+
+export function actUploadMediaAsync(data) {
+  return async (dispatch) => {
+    const response = await userService.uploadMedia(data);
+    console.log('uploadMedia', response);
+  };
+}

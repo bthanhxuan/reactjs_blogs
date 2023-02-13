@@ -6,7 +6,7 @@ import { actFetchNewCommentsAsync } from '../../store/comment/actions';
 import Button from '../shared/Button';
 
 function CommentForm(props) {
-  const { parentId } = props;
+  const { parentId, isShow = true } = props;
 
   const [loading, setLoading] = useState(false);
   const [content, setContent] = useState('');
@@ -14,6 +14,8 @@ function CommentForm(props) {
   const postId = useSelector((state) => state.POST.articleDetail?.id);
 
   const dispatch = useDispatch();
+
+  if (!isShow) return <></>;
 
   if (!currentUser) {
     return (

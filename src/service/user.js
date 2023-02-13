@@ -25,6 +25,9 @@ const userService = {
       confirm_new_password,
     });
   },
+  uploadMedia(data) {
+    return API.callWithToken().post('/wp/v2/media', data);
+  },
 };
 
 export default userService;
